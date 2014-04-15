@@ -1,4 +1,5 @@
 from flask import Flask, make_response, jsonify, request
+import RPi_Info
 
 app = Flask(__name__)
 
@@ -8,9 +9,10 @@ def not_found(error):
     return make_response(jsonify({'error': error}), 404)
 
 
-@app.route('/gpio/api/v1.0/simulator', methods=['POST'])
+@app.route('/rpi/ram', methods=['GET'])
 def set_channel_value():
-    print(request.json)
+    info = RPi_Info()
+    print(info.get_ram())
     return make_response(jsonify({'success': 'ok'}), 200)
 
 

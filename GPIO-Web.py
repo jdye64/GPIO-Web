@@ -1,8 +1,9 @@
 from flask import Flask, make_response, jsonify, url_for, request, abort
+
 try:
     import RPi.GPIO as GPIO
 except RuntimeError:
-    print("Error importing RPi.GPIO! This is probably because you need superuser privileges. "
+    print("Error importing RPi.GPIO! This is probably because you need superuser privileges."
           "You can achieve this by using 'sudo' to run your script")
 
 app = Flask(__name__)
@@ -34,17 +35,17 @@ def not_found(error):
     return make_response(jsonify({'error': error}), 404)
 
 
-@app.route('/gpio/api/v1.0/', methods=['GET'])
+@app.route('/gpio/', methods=['GET'])
 def get_all_channels_status():
     return jsonify(build_gpio_response(board_gpio_channels))
 
 
-@app.route('/gpio/api/v1.0/<int:channel_id>', methods=['GET'])
+@app.route('/gpio/<int:channel_id>', methods=['GET'])
 def get_channel_status(channel_id):
     return jsonify(build_gpio_response([channel_id]))
 
 
-@app.route('/gpio/api/v1.0/<int:channel_id>', methods=['POST'])
+@app.route('/gpio/<int:channel_id>', methods=['POST'])
 def set_channel_value(channel_id):
     if not request.json or not 'channel_value' in request.json:
         abort(400)
@@ -58,6 +59,6 @@ if __name__ == '__main__':
 
     # Sets up each pin mode
     for channel in board_gpio_channels:
-        GPIO.setup(channel, GPIO.OUT, GPIO.LOW)
+        GPIO.setup(channel, GPIO.OUT, GPIO.HIGH)
 
     app.run(host='0.0.0.0')

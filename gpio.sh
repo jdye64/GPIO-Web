@@ -11,8 +11,8 @@
 ### END INIT INFO
 
 # Change the next 3 lines to suit where you install your script and what you want to call it
-DIR=/usr/local/bin/gpio
-DAEMON=$DIR/GPIO-Web.py
+DIR=/usr/local/bin/gpiorest
+DAEMON=$DIR/gpioweb.py
 DAEMON_NAME=GPIO-Web
 
 # This next line determines what user the script runs as.

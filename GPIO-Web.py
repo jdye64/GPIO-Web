@@ -1,3 +1,4 @@
+#!/usr/bin/python
 from flask import Flask, make_response, jsonify, url_for, request, abort
 
 try:

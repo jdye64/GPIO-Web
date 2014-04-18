@@ -36,6 +36,13 @@ def not_found(error):
     return make_response(jsonify({'error': error}), 404)
 
 
+@app.route('/gpio/location', methods=['GET'])
+def get_all_channels_status():
+    locations = []
+    locations.append({'decs': '621 Rock Springs - ATL GA', 'externalIp': '76.20.248.249', 'image': ''})
+    return jsonify(locations)
+
+
 @app.route('/gpio/', methods=['GET'])
 def get_all_channels_status():
     return jsonify(build_gpio_response(board_gpio_channels))
@@ -52,6 +59,35 @@ def set_channel_value(channel_id):
         abort(400)
     set_gpio_value(channel_id, request.json['channel_value'])
     return jsonify({'message': 'ok'}), 200
+
+
+
+
+locations = []
+locations.append({'locationId': 1, 'decs': 'ATL Apartment', 'externalIp': '76.20.248.249', 'image': ''})
+
+devices = []
+devices.append({'locationId': 1, 'deviceId': 1, 'desc': 'Bedroom', 'internalIp': '10.0.1.50', 'image': ''})
+
+@app.route('/gpio/location', methods=['GET'])
+def get_all_locations():
+    return jsonify({'locations': locations})
+
+
+@app.route('/gpio/location/<int:location_id>', methods=['GET'])
+def get_location(location_id):
+    for location in locations:
+        if location.get('locationId') == location_id:
+            return jsonify(location)
+
+    error = 'Unable to locate location with locationId ' + str(location_id)
+    return make_response(jsonify({'error': error}), 404)
+
+
+@app.route('/gpio/device', methods=['GET'])
+def get_all_devices():
+    return jsonify({'devices': devices})
+
 
 
 if __name__ == '__main__':

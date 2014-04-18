@@ -12,12 +12,6 @@ app = Flask(__name__)
 gpio_mode = GPIO.BOARD
 board_gpio_channels = [7, 11, 12, 13, 15, 16, 18, 22]
 
-locations = []
-locations.append({'locationId': 1, 'decs': 'ATL Apartment', 'externalIp': '76.20.248.249', 'image': ''})
-
-devices = []
-devices.append({'locationId': 1, 'deviceId': 1, 'desc': 'Bedroom', 'internalIp': '10.0.1.50', 'image': ''})
-
 
 def build_gpio_response(channel_list):
     gpio_info = {'gpio_mode': gpio_mode, 'pi_version': GPIO.RPI_REVISION, 'gpio_rpi_version': GPIO.VERSION, 'gpio_on': 1, 'gpio_off': 0}
@@ -41,14 +35,6 @@ def set_gpio_value(channel, value):
 def not_found(error):
     return make_response(jsonify({'error': error}), 404)
 
-
-@app.route('/gpio/location', methods=['GET'])
-def get_all_channels_status():
-    locations = []
-    locations.append({'decs': '621 Rock Springs - ATL GA', 'externalIp': '76.20.248.249', 'image': ''})
-    return jsonify(locations)
-
-
 @app.route('/gpio/', methods=['GET'])
 def get_all_channels_status():
     return jsonify(build_gpio_response(board_gpio_channels))
@@ -66,6 +52,13 @@ def set_channel_value(channel_id):
     set_gpio_value(channel_id, request.json['channel_value'])
     return jsonify({'message': 'ok'}), 200
 
+
+
+locations = []
+locations.append({'locationId': 1, 'decs': 'ATL Apartment', 'externalIp': '76.20.248.249', 'image': ''})
+
+devices = []
+devices.append({'locationId': 1, 'deviceId': 1, 'desc': 'Bedroom', 'internalIp': '10.0.1.50', 'image': ''})
 
 @app.route('/gpio/location', methods=['GET'])
 def get_all_locations():

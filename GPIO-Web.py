@@ -35,7 +35,7 @@ def set_gpio_value(channel, value):
 def not_found(error):
     return make_response(jsonify({'error': error}), 404)
 
-@app.route('/gpio/', methods=['GET'])
+@app.route('/gpio', methods=['GET'])
 def get_all_channels_status():
     return jsonify(build_gpio_response(board_gpio_channels))
 

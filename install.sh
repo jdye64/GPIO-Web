@@ -3,7 +3,7 @@
 echo 'Installing GPIO Web'
 mkdir /usr/local/bin/gpiorest
 chmod 755 /usr/local/bin/gpiorest
-cp ./GPIO-Web.py /usr/local/bin/gpiorest/gpioweb.py
+cp ./GPIO-Slave.py /usr/local/bin/gpiorest/gpioweb.py
 chmod 755 /usr/local/bin/gpiorest/gpioweb.py
 
 # Move the init script to /etc/init.d

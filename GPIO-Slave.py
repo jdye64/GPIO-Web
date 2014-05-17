@@ -88,4 +88,4 @@ if __name__ == '__main__':
     for channel in board_gpio_channels:
         GPIO.setup(channel, GPIO.OUT, GPIO.HIGH)
 
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=5001)

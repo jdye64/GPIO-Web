@@ -68,7 +68,7 @@ def get_locations():
 @app.route('/location/<location_id>', methods=['GET'])
 def get_location(location_id):
     loc_devices = [device.to_json() for device in Device.select().where(Location.location_id == location_id)]
-    return jsonify(location=loc_devices)
+    return jsonify(location_devices=loc_devices)
 
 @app.route('/location/<location_id>', methods=['DELETE'])
 def delete_location(location_id):

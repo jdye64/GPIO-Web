@@ -47,11 +47,12 @@ class Device(BaseModel):
 
 class Outlet(BaseModel):
     outlet_id = db.PrimaryKeyField()
+    gpio_port = db.IntegerField()
     device = db.ForeignKeyField(Device, related_name='outlets')
     desc = db.TextField()
 
     def to_json(self):
-        return {"desc": self.desc, "dev_id": self.device.device_id, "out_id": self.outlet_id}
+        return {"desc": self.desc, "dev_id": self.device.device_id, "out_id": self.outlet_id, "gpio_port": self.gpio_port}
 
 
 @app.route('/location', methods=['POST'])

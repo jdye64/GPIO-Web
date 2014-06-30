@@ -59,6 +59,7 @@ class Outlet(BaseModel):
 def save_location():
     new_location = Location(desc=request.json['desc'], external_ip=request.json['external_ip'])
     new_location.save()
+    new_location.get()
     return jsonify(new_location.to_json())
 
 @app.route('/location', methods=['GET'])

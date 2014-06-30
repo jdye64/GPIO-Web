@@ -61,6 +61,12 @@ def save_location():
     new_location.save()
     return jsonify(new_location.to_json())
 
+@app.route('/location', methods=['PUT'])
+def update_location():
+    new_location = Location(desc=request.json['desc'], external_ip=request.json['external_ip'], location_id=request.json['location_id'])
+    new_location.save()
+    return jsonify(new_location.to_json())
+
 @app.route('/location', methods=['GET'])
 def get_locations():
     locations = [location.to_json() for location in Location.select()]

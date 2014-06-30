@@ -109,7 +109,7 @@ def get_device(dev_id):
 @app.route('/device/<dev_id>', methods=['DELETE'])
 def delete_device(dev_id):
     device = Device.get().where(Device.device_id == dev_id)
-    device.delete()
+    device.delete_instance()
     return jsonify(device=device.to_json())
 
 
@@ -138,8 +138,7 @@ def get_outlet(out_id):
 @app.route('/outlet/<out_id>', methods=['DELETE'])
 def delete_outlet(out_id):
     outlet = Outlet.get().where(Outlet.outlet_id == out_id)
-    for out in outlet:
-        out.delete()
+    outlet.delete_instance()
     return jsonify(outlet=out.to_json())
 
 if __name__ == '__main__':

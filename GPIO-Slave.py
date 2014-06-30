@@ -1,6 +1,5 @@
 #!/usr/bin/python
 from flask import Flask, make_response, jsonify, json, url_for, request,
-from werkzeug.contrib.fixers import ProxyFix
 
 try:
     import RPi.GPIO as GPIO
@@ -78,9 +77,6 @@ def get_location(location_id):
 @app.route('/gpio/device', methods=['GET'])
 def get_all_devices():
     return jsonify({'devices': devices})
-
-
-app.wsgi_app = ProxyFix(app.wsgi_app)
 
 if __name__ == '__main__':
     #setup GPIO using Board numbering

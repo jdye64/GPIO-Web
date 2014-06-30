@@ -47,9 +47,9 @@ class Device(BaseModel):
 
 class Outlet(BaseModel):
     outlet_id = db.PrimaryKeyField()
-    gpio_port = db.IntegerField()
     device = db.ForeignKeyField(Device, related_name='outlets')
     desc = db.TextField()
+    gpio_port = db.IntegerField()
 
     def to_json(self):
         return {"desc": self.desc, "dev_id": self.device.device_id, "out_id": self.outlet_id, "gpio_port": self.gpio_port}
@@ -103,7 +103,7 @@ def delete_device(dev_id):
 
 @app.route('/outlet', methods=['POST'])
 def save_outlet():
-    new_outlet = Outlet(device=request.json['device_id'], desc=request.json['desc'])
+    new_outlet = Outlet(device=request.json['device_id'], desc=request.json['desc'], gpio_port=request.json['gpio_port'])
     new_outlet.save()
     return jsonify(new_outlet.to_json())
 

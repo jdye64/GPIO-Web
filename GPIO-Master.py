@@ -61,9 +61,9 @@ def save_location():
     new_location.save()
     return jsonify(new_location.to_json())
 
-@app.route('/location', methods=['PUT'])
-def update_location():
-    new_location = Location(desc=request.json['desc'], external_ip=request.json['external_ip'], location_id=request.json['location_id'])
+@app.route('/location/<location_id>', methods=['PUT'])
+def update_location(location_id):
+    new_location = Location(desc=request.json['desc'], external_ip=request.json['external_ip'], location_id=location_id)
     new_location.save()
     return jsonify(new_location.to_json())
 

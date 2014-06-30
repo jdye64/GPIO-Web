@@ -33,17 +33,18 @@ class Location(BaseModel):
 class Device(BaseModel):
     device_id = db.PrimaryKeyField()
     location = db.ForeignKeyField(Location, related_name='devices')
+    device_url = db.TextField()
     desc = db.TextField()
 
     def to_json(self):
-        return {"desc": self.desc, "loc_id": self.location.location_id, "dev_id": self.device_id}
+        return {"desc": self.desc, "loc_id": self.location.location_id, "dev_id": self.device_id, "dev_url": self.device_url}
 
     def to_json_with_outlets(self, outletSqlQuery):
         outlets = []
         for outlet in outletSqlQuery:
             outlets.append(outlet.to_json())
 
-        return {"desc": self.desc, "loc_id": self.location.location_id, "dev_id": self.device_id, "outlets": outlets}
+        return {"desc": self.desc, "loc_id": self.location.location_id, "dev_id": self.device_id, "dev_url": self.device_url, "outlets": outlets}
 
 class Outlet(BaseModel):
     outlet_id = db.PrimaryKeyField()
@@ -86,13 +87,13 @@ def delete_location(location_id):
 
 @app.route('/device', methods=['POST'])
 def save_device():
-    new_device = Device(location=request.json['location_id'], desc=request.json['desc'])
+    new_device = Device(location=request.json['location_id'], desc=request.json['desc'], device_url=request.json['device_url'])
     new_device.save()
     return jsonify(new_device.to_json())
 
 @app.route('/device/<dev_id>', methods=['PUT'])
 def update_device(dev_id):
-    new_device = Device(location=request.json['location_id'], desc=request.json['desc'], device_id=dev_id)
+    new_device = Device(location=request.json['location_id'], desc=request.json['desc'], device_id=dev_id, device_url=request.json['device_url'])
     new_device.save()
     return jsonify(new_device.to_json())
 

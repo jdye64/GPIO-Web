@@ -16,7 +16,7 @@ class BaseModel(db.Model):
         database = dyerDB
 
 class Location(BaseModel):
-    location_id = db.IntegerField(primary_key=True)
+    location_id = db.PrimaryKeyField()
     desc = db.TextField()
     external_ip = db.TextField()
 
@@ -31,7 +31,7 @@ class Location(BaseModel):
         return self.to_json()
 
 class Device(BaseModel):
-    device_id = db.IntegerField(primary_key=True)
+    device_id = db.PrimaryKeyField()
     location = db.ForeignKeyField(Location, related_name='devices')
     desc = db.TextField()
 
@@ -46,7 +46,7 @@ class Device(BaseModel):
         return {"desc": self.desc, "loc_id": self.location.location_id, "dev_id": self.device_id, "outlets": outlets}
 
 class Outlet(BaseModel):
-    outlet_id = db.IntegerField(primary_key=True)
+    outlet_id = db.PrimaryKeyField()
     device = db.ForeignKeyField(Device, related_name='outlets')
     desc = db.TextField()
     gpio_port = db.IntegerField()
@@ -59,7 +59,6 @@ class Outlet(BaseModel):
 def save_location():
     new_location = Location(desc=request.json['desc'], external_ip=request.json['external_ip'])
     new_location.save()
-    new_location.get()
     return jsonify(new_location.to_json())
 
 @app.route('/location', methods=['GET'])

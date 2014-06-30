@@ -90,6 +90,12 @@ def save_device():
     new_device.save()
     return jsonify(new_device.to_json())
 
+@app.route('/device/<dev_id>', methods=['PUT'])
+def update_device(dev_id):
+    new_device = Device(location=request.json['location_id'], desc=request.json['desc'], device_id=dev_id)
+    new_device.save()
+    return jsonify(new_device.to_json())
+
 @app.route('/device', methods=['GET'])
 def get_devices():
     devices = [device.to_json() for device in Device.select()]
@@ -110,6 +116,12 @@ def delete_device(dev_id):
 @app.route('/outlet', methods=['POST'])
 def save_outlet():
     new_outlet = Outlet(device=request.json['device_id'], desc=request.json['desc'], gpio_port=request.json['gpio_port'])
+    new_outlet.save()
+    return jsonify(new_outlet.to_json())
+
+@app.route('/outlet/<out_id>', methods=['PUT'])
+def update_outlet(out_id):
+    new_outlet = Outlet(device=request.json['device_id'], desc=request.json['desc'], gpio_port=request.json['gpio_port'], outlet_id=out_id)
     new_outlet.save()
     return jsonify(new_outlet.to_json())
 

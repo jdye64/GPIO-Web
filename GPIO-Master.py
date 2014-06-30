@@ -31,7 +31,7 @@ class Location(BaseModel):
         return self.to_json()
 
 class Device(BaseModel):
-    device_id = db.PrimaryKeyField()
+    device_id = db.IntegerField(primary_key=True)
     location = db.ForeignKeyField(Location, related_name='devices')
     desc = db.TextField()
 
@@ -46,7 +46,7 @@ class Device(BaseModel):
         return {"desc": self.desc, "loc_id": self.location.location_id, "dev_id": self.device_id, "outlets": outlets}
 
 class Outlet(BaseModel):
-    outlet_id = db.PrimaryKeyField()
+    outlet_id = db.IntegerField(primary_key=True)
     device = db.ForeignKeyField(Device, related_name='outlets')
     desc = db.TextField()
     gpio_port = db.IntegerField()

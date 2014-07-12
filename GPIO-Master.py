@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import flask_peewee.db as db
+import requests
 from flask import Flask, make_response, jsonify, json, url_for, request, abort
 
 app = Flask(__name__)
@@ -44,7 +45,14 @@ class Device(BaseModel):
         for outlet in outletSqlQuery:
             outlets.append(outlet.to_json())
 
-        return {"desc": self.desc, "loc_id": self.location.location_id, "dev_id": self.device_id, "dev_url": self.device_url, "outlets": outlets}
+
+        url = self.device_url + '/gpio'
+        params = dict()
+
+        resp = requests.get(url=url, params=params)
+        data = json.loads(resp.text)
+
+        return {"desc": self.desc, "loc_id": self.location.location_id, "dev_id": self.device_id, "dev_url": self.device_url, "outlets": outlets, "gpio_outlets": data}
 
 class Outlet(BaseModel):
     outlet_id = db.PrimaryKeyField()
